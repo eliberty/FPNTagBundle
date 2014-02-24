@@ -10,6 +10,12 @@
             "email": "fabien@pennequin.me"
         }
     ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/xleliberty/DoctrineExtensions-Taggable.git"
+        }
+    ],
     "require": {
         "symfony/framework-bundle": ">=2.0",
         "fpn/doctrine-extensions-taggable": "*"
