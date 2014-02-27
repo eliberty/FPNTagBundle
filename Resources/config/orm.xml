@@ -21,8 +21,7 @@
         </service>
 
         <service id="fpn_tag.tag_suscriber" class="%fpn_tag.tag_suscriber.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument>%service_container%</argument>
+            <argument type="service" id="service_container" />
             <tag name="doctrine.event_subscriber" />
         </service>
 
