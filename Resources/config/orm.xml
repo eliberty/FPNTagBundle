@@ -8,6 +8,7 @@
         <parameter key="fpn_tag.tag_manager.class">FPN\TagBundle\Entity\TagManager</parameter>
         <parameter key="fpn_tag.entity.tag.class">FPN\TagBundle\Entity\Tag</parameter>
         <parameter key="fpn_tag.entity.tagging.class">FPN\TagBundle\Entity\Tagging</parameter>
+        <parameter key="fpn_tag.tag_suscriber.class">FPN\TagBundle\Listener\TagSubscriber</parameter>
     </parameters>
 
 
@@ -18,6 +19,13 @@
             <argument>%fpn_tag.entity.tagging.class%</argument>
             <argument type="service" id="fpn_tag.slugifier" />
         </service>
+
+        <service id="fpn_tag.tag_suscriber" class="%fpn_tag.tag_suscriber.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%service_container%</argument>
+            <tag name="doctrine.event_subscriber" />
+        </service>
+
     </services>
 
 </container>
