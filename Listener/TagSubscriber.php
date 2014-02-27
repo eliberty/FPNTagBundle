@@ -31,10 +31,6 @@ class TagSubscriber implements EventSubscriber
             $this->tagClass = $this->container->getParameter('fpn_tag.entity.tag.class');
             $this->taggingClass = $this->container->getParameter('fpn_tag.entity.tagging.class');
             $this->subscribedEvents = [
-                                        // Events::preUpdate,
-                                        // Events::prePersist,
-                                        // Events::postPersist,
-                                        // Events::onFlush,
                                         Events::postLoad,
                                         Events::preFlush,
                                     ];
@@ -56,15 +52,13 @@ class TagSubscriber implements EventSubscriber
     {
         $entities = new \ArrayIterator();
         $entity = $args->getEntity();
+        $tagManager = $this->container->get('fpn_tag.tag_manager');
         if (in_array('DoctrineExtensions\Taggable\Taggable',class_implements($entity))) {
-            $entities[] = $entity;
+            $getTagsClosure = function() use ($tagManager, $entity){
+                return $tagManager->getTagging($entity);
+            };
+            $entity->setTags($getTagsClosure);
         }
-
-        if (count($entities)) {
-            $tagManager = $this->container->get('fpn_tag.tag_manager');
-            $tagManager->preloadTags($entities);
-        }
-
     }
 
     /**

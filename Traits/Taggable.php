@@ -29,9 +29,9 @@ trait Taggable
      * @param object $tag
      * @return this
      */
-    public function addTag( $tag)
+    public function addTag($tag)
     {
-        $this->tags->add($tag);
+        $this->getTags()->add($tag);
 
         return $this;
     }
@@ -39,10 +39,10 @@ trait Taggable
     /**
      * Add tags
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection $tags
+     * @param $tags
      * @return this
      */
-    public function setTags(ArrayCollection $tags)
+    public function setTags($tags)
     {
         $this->tags = $tags;
 
@@ -54,9 +54,9 @@ trait Taggable
      *
      * @param object $tag
      */
-    public function removeTag( $tag)
+    public function removeTag($tag)
     {
-        $this->tags->removeElement($tag);
+        $this->getTags()->removeElement($tag);
 
         return $this;
     }
@@ -67,6 +67,9 @@ trait Taggable
      */
     public function getTags()
     {
+        if (is_callable($this->tags)) {
+            $this->tags = $this->tags->__invoke();
+        }
         $this->tags = $this->tags ?: new ArrayCollection();
         return $this->tags;
     }
