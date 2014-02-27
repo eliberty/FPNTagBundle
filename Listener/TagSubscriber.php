@@ -55,7 +55,7 @@ class TagSubscriber implements EventSubscriber
         $tagManager = $this->container->get('fpn_tag.tag_manager');
         if (in_array('DoctrineExtensions\Taggable\Taggable',class_implements($entity))) {
             $getTagsClosure = function() use ($tagManager, $entity){
-                return $tagManager->getTagging($entity);
+                $tagManager->loadTagging($entity);
             };
             $entity->setTags($getTagsClosure);
         }

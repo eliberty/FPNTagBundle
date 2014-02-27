@@ -68,7 +68,7 @@ trait Taggable
     public function getTags()
     {
         if (is_callable($this->tags)) {
-            $this->tags = $this->tags->__invoke();
+            $this->tags->__invoke();
         }
         $this->tags = $this->tags ?: new ArrayCollection();
         return $this->tags;
