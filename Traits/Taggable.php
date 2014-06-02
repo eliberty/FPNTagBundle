@@ -5,11 +5,14 @@ namespace FPN\TagBundle\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use FPN\TagBundle\Util\Slugifier;
+use JMS\Serializer\Annotation\Accessor,
+    JMS\Serializer\Annotation\Expose;
 
 trait Taggable
 {
     /**
      * @var \ArrayCollection
+     * @Expose
      */
     protected $tags;
 
