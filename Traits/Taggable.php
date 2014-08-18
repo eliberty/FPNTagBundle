@@ -94,7 +94,8 @@ trait Taggable
     public function hasTag($stringTag)
     {
         $has=  false;
-        $slug = $this->tagSlugifier->slugify($stringTag);
+
+        $slug = $this->getSluggifier()->slugify($stringTag);
         $currentTags = $this->getTags();
         if (count($currentTags)) {
             foreach ($currentTags as $tag) {
@@ -131,6 +132,18 @@ trait Taggable
     public function getTaggableId()
     {
         return $this->getId();
+    }
+
+    /**
+     * @return Slugifier
+     */
+    public function getSluggifier()
+    {
+        if (!isset($this->tagSlugifier)) {
+            $this->tagSlugifier = new Slugifier();
+        }
+
+        return $this->tagSlugifier;
     }
 
 }
