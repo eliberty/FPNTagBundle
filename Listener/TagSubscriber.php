@@ -71,6 +71,13 @@ class TagSubscriber implements EventSubscriber
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
         $toFlush = [];
+
+        $softDeleteEnabled = false;
+        if ($em->getFilters()->isEnabled('softdeleteable')) {
+            $em->getFilters()->disable('softdeleteable');
+            $softDeleteEnabled = true;
+        }
+
         foreach ($uow->getIdentityMap() as $entity) {
             $entities = (!is_array($entity)) ? array($entity) : $entity;
             foreach ($entities as $entity) {
@@ -88,14 +95,20 @@ class TagSubscriber implements EventSubscriber
             }
         }
 
+        if ($softDeleteEnabled) {
+            $em->getFilters()->enable('softdeleteable');
+        }
+
     }
 
     private function checkForTags($entity)
     {
         $toFlush=[];
         if (in_array('DoctrineExtensions\Taggable\Taggable',class_implements($entity))) {
-            $tagManager = $this->container->get('fpn_tag.tag_manager');
-            $toFlush = $tagManager->saveTagging($entity, false);
+            if (! method_exists($entity, 'getDeletedAt') || null === $entity->getDeletedAt()) {
+                $tagManager = $this->container->get('fpn_tag.tag_manager');
+                $toFlush    = $tagManager->saveTagging($entity, false);
+            }
         }
         return $toFlush;
     }
