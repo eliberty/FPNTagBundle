@@ -4,6 +4,12 @@
     "keywords": ["tagging", "tag"],
     "type": "symfony-bundle",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/tleliberty/DoctrineExtensions-Taggable.git"
+        }
+    ],
     "authors": [
         {
             "name": "Fabien Pennequin",
