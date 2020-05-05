@@ -1,0 +1,7 @@
+!.gitignore
+composer.lock
+.idea/
+.idea/*
+/build
+/vendor
+vendor/*
