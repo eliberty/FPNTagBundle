@@ -20,14 +20,18 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fpn_tag');
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('fpn_tag');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('fpn_tag');
+        }
 
         $rootNode
             ->children()
                 ->arrayNode('model')
                     ->isRequired()
-                    ->cannotBeEmpty()
                     ->children()
                         ->scalarNode('tag_class')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('tagging_class')->isRequired()->cannotBeEmpty()->end()
